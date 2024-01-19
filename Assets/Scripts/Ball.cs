@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,6 +32,13 @@ public class Ball : MonoBehaviour
     {
         transform.position = Vector3.zero;
         _rigidbody.velocity = Vector3.zero;
+    }
+    public void ResetLive()
+    {
+        LivesImage livesImage = FindAnyObjectByType<LivesImage>();
+        Live = _live;
+
+        livesImage.EnableLiveImage();
     }
 
     public void WasteLive()

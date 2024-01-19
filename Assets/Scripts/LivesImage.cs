@@ -19,7 +19,7 @@ public class LivesImage : MonoBehaviour
         _livesImage[_ball.Live].SetActive(false);
     }
 
-    private void EnableLiveImage()
+    public void EnableLiveImage()
     {
         for (int i = 0; i < _ball.Live; i++)
         {

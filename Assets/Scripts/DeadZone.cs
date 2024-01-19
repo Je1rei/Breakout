@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class DeadZone : MonoBehaviour
 {
-    [SerializeField, Range(-1f, -6f)] private float _deadPosition;
+    [SerializeField, Range(-1f, -10f)] private float _deadPosition;
     [SerializeField] private Ball _ball;
 
     private void FixedUpdate()

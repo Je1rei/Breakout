@@ -12,6 +12,7 @@ public class Loader : MonoBehaviour
     public void OnApplicationQuit()
     {
         // SAVE
+        Debug.Log(" quit ");
     }
 
     public void OnApplicationPause(bool pause)

@@ -5,61 +5,98 @@ using UnityEngine;
 public class GameStateChange : MonoBehaviour
 {
     [SerializeField] private Ball _ball;
+    [SerializeField] private LevelGenerator _levelGenerator;
     [SerializeField] private GameObject _gameOverPanel;
-    [SerializeField] private GameObject _pausePanel;
+    [SerializeField] private GameObject _mainMenuPanel;
 
     private bool _isPause = false;
+    private bool _isOver = false;
 
+    public bool IsOver { get; private set; }
     public bool IsPause { get; private set; }
 
     private void Awake()
     {
+        EnablePause();
+        IsOver = _isOver;
         IsPause = _isPause;
     }
 
     private void Update()
     {
-        if(_ball.Live <= 0)
+        IsOver = isOver();
+
+        if (IsOver)
         {
             GameOver();
         }
+
+        Debug.Log(IsOver + " - IsOver");
     }
 
-    public void PauseGame()
+    public void ResetRound()
     {
-        if (IsPause)
-        {
-            IsPause = DisablePause();
-        }
-        else if(!IsPause)
-        {
-            IsPause = EnablePause();
-        }
-
-        _pausePanel.SetActive(IsPause);
+        _mainMenuPanel.SetActive(false);
+        _ball.ResetBall();
+        _ball.ResetLive();
+        _levelGenerator.DestroyLevel();
+        _levelGenerator.GenerateLevel();
+        IsPause = DisablePause();
+        _gameOverPanel.SetActive(false);
     }
 
-    public void ResetGame()
+    public void ExitMainMenu()
     {
-        // Добавить сохранение всего в OnApplicationQuit и OnApplicationPause
-        PauseGame();
+        _mainMenuPanel.SetActive(true);
+    }
+
+    public void Play()
+    {
+        ResetRound();
+        DisablePause();
+    }
+
+    public void TooglePause()
+    {
+        if (!IsPause)
+        {
+            _gameOverPanel.SetActive(!IsPause);
+            EnablePause();
+            IsPause = true;
+        }
+        else if (IsPause)
+        {
+            _gameOverPanel.SetActive(!IsPause);
+            DisablePause();
+            IsPause = false;
+        }
     }
 
     private bool EnablePause()
     {
         Time.timeScale = 0;
-        return IsPause = true;
+        return true;
     }
 
     private bool DisablePause()
     {
         Time.timeScale = 1;
-        return IsPause = false;
+        return false;
     }
 
     private void GameOver()
     {
         IsPause = EnablePause();
         _gameOverPanel.SetActive(true);
+    }
+
+    private bool isOver()
+    {
+        if (_ball.Live <= 0)
+        {
+            return true;
+        }
+
+        return false;
     }
 }

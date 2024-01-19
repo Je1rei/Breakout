@@ -13,7 +13,7 @@ public class Paddle : MonoBehaviour
 
     private void PaddleMove()
     {
-        float translation = Input.GetAxis("Horizontal") * _speed * Time.deltaTime;
+        float translation = Input.GetAxisRaw("Horizontal") * _speed * Time.deltaTime;
 
         transform.Translate(translation, 0, 0);
     }
